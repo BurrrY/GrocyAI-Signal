@@ -6,7 +6,7 @@ import time
 
 SIGNAL_NUMBER = os.environ.get("SIGNAL_NUMBER")
 API_URL = os.environ.get("SIGNAL_API_URL")
-CHAT_BACKEND = os.environ.get("GROCYAI_API_URL")
+CHAT_BACKEND = os.environ.get("GROCYAI_API_URL") + "/chat"
 
 
 def handle_message(data):
