@@ -1,11 +1,12 @@
 import json
+import os
 
 import requests
 import time
 
-SIGNAL_NUMBER = "+4915127527227"
-API_URL = "http://192.168.178.13:8840"
-CHAT_BACKEND = "http://localhost:5000/chat"
+SIGNAL_NUMBER = os.environ.get("SIGNAL_NUMBER")
+API_URL = os.environ.get("SIGNAL_API_URL")
+CHAT_BACKEND = os.environ.get("GROCYAI_API_URL")
 
 
 def handle_message(data):
@@ -22,7 +23,6 @@ def handle_message(data):
 
     message = sentMessage.get("message", {})
     groupInfo = sentMessage.get("groupInfo", {}).get("groupName")
-    groupId = sentMessage.get("groupInfo", {}).get("groupId")
 
     if groupInfo != "Haushalt":
         print("not interested in message from ", groupInfo)
@@ -36,7 +36,7 @@ def handle_message(data):
         requests.post(f"{API_URL}/v2/send", json={
             "message": reply,
             "number": SIGNAL_NUMBER,
-            "recipients": ["group.YzE5bjRpcEtmczEzZTNJNGowM21jb2VUNFVkTVpBaXJOU1IrOGNnTmM4ND0="]
+            "recipients": [os.environ.get("SIGNAL_GROUP_ID")]
         })
 
 
