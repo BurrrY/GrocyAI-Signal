@@ -39,5 +39,5 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ghcr.io/BurrrY/grocyai-signal:latest
+          tags: ghcr.io/burrry/grocyai-signal:latest
           labels: ${{ steps.meta.outputs.labels }}
