@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       REGISTRY: ghcr.io
-      IMAGE_NAME: ${{ github.repository }}
+      IMAGE_NAME: ghcr.io/BurrrY/grocyai-signal
 
     steps:
       - name: Checkout
@@ -39,5 +39,5 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ghcr.io/BurrrY/grocyai-signal:latest
           labels: ${{ steps.meta.outputs.labels }}
