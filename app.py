@@ -1,5 +1,6 @@
 import json
 import os
+import sys
 
 import requests
 import time
@@ -23,9 +24,9 @@ def handle_message(data):
         return
 
     message = None
-    if not sentMessage is None:
+    if sentMessage is not None:
         message = sentMessage.get("message", {})
-    elif not sentMessage2 is None:
+    elif sentMessage2 is not None:
         message = sentMessage2.get("message", {})
 
     if message is None :
@@ -60,15 +61,15 @@ def poll_and_respond():
             continue
 
 
-        if len(res.content) <2:
+        if len(res.content) <=2:
             continue
 
 
-        print("got data", res)
-        print("content len", len(res.content))
 
         data = res.json()
 
+        print("got data", res)
+        print("content len", len(res.content))
         print("got content", json.dumps(data))
 
         if not isinstance(data, list):
@@ -77,10 +78,14 @@ def poll_and_respond():
 
 
         for message in data:
-            handle_message(message)
+            try:
+                handle_message(message)
+            except:
+                e = sys.exc_info()[0]
+                print("error handling message: %s", e)
 
 
-        time.sleep(2)
+        time.sleep(1)
 
 if __name__ == "__main__":
     print("GROCYAI_API_URL: %s", os.environ.get("GROCYAI_API_URL") + "/chat")
