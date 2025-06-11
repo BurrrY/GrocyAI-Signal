@@ -16,10 +16,22 @@ def handle_message(data):
 
     envelope = data.get("envelope", {})
     sentMessage = envelope.get("syncMessage", {}).get("sentMessage")
+    sentMessage2 = envelope.get("dataMessage", {})
 
-    if sentMessage is None:
-        print("sentMessage not found")
+    if sentMessage is None and sentMessage2 is None :
+        print("sentMessage and 2 not found")
         return
+
+    message = None
+    if not sentMessage is None:
+        message = sentMessage.get("message", {})
+    elif not sentMessage2 is None:
+        message = sentMessage2.get("message", {})
+
+    if message is None :
+        print("message and not found")
+        return
+
 
     message = sentMessage.get("message", {})
     groupInfo = sentMessage.get("groupInfo", {}).get("groupName")
@@ -47,12 +59,13 @@ def poll_and_respond():
             time.sleep(5)
             continue
 
-        print("got data", res)
-        print("content len", len(res.content))
 
         if len(res.content) <2:
             continue
 
+
+        print("got data", res)
+        print("content len", len(res.content))
 
         data = res.json()
 
@@ -70,4 +83,5 @@ def poll_and_respond():
         time.sleep(2)
 
 if __name__ == "__main__":
+    print("GROCYAI_API_URL: %s", os.environ.get("GROCYAI_API_URL") + "/chat")
     poll_and_respond()
